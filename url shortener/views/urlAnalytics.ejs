@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener Service</title>
+    <style>
+        :root {
+            --text: rgb(159, 142, 66);
+            --hovText: #120f1c;
+        }
+
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+        @import url(https://fonts.googleapis.com/css?family=Bree+Serif);
+
+        body {
+            background: #262626;
+            font-size: 22px;
+            line-height: 32px;
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            word-wrap: break-word !important;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        h1 {
+            font-size: 60px;
+            text-align: center;
+            color: #fff;
+        }
+
+        h3 {
+            font-size: 30px;
+            line-height: 34px;
+            text-align: center;
+            color: #fff;
+        }
+
+        h3 a {
+            color: var(--text);
+        }
+
+        a {
+            color: var(--text);
+        }
+
+        h1 {
+            margin-top: 100px;
+            text-align: center;
+            font-size: 60px;
+            line-height: 70px;
+            font-family: 'Bree Serif', 'serif';
+        }
+
+        #container {
+            margin: 0 auto;
+            max-width: 890px;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        .toggle,
+        [id^=drop] {
+            display: none;
+        }
+
+        nav {
+            margin: 0;
+            padding: 0;
+            background-color: #120f1c;
+        }
+
+        #logo {
+            display: block;
+            padding: 0 30px;
+            float: left;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 100px;
+            color: #fff;
+        }
+
+        nav:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        nav ul {
+            float: right;
+            padding: 0;
+            margin-right: 30px;
+            list-style: none;
+            position: relative;
+        }
+
+        nav ul li {
+            margin: 0px;
+            display: block;
+            float: left;
+            background-color: var(--text);
+            border: 2px solid var(--text);
+        }
+
+        nav a {
+            display: block;
+            padding: 14px 20px;
+            color: var(--hovText);
+            font-size: 17px;
+            text-decoration: none;
+        }
+
+
+        nav ul li ul li:hover {
+            background: var(--text);
+            color: var(--text);
+        }
+
+        nav a:hover {
+            background-color: var(--hovText);
+            color: var(--text);
+        }
+
+        nav ul ul {
+            display: none;
+            position: absolute;
+            top: 60px;
+        }
+
+        nav ul li:hover>ul {
+            display: inherit;
+        }
+
+        nav ul ul li {
+            width: 170px;
+            float: none;
+            display: list-item;
+            position: relative;
+        }
+
+        nav ul ul ul li {
+            position: relative;
+            top: -60px;
+            left: 170px;
+        }
+
+        li>a:after {
+            content: ' +';
+        }
+
+        li>a:only-child:after {
+            content: '';
+        }
+
+
+        @media all and (max-width : 768px) {
+
+            #logo {
+                display: block;
+                padding: 0;
+                width: 100%;
+                text-align: center;
+                float: none;
+            }
+
+            nav {
+                margin: 0;
+            }
+
+            .toggle+a,
+            .menu {
+                display: none;
+            }
+
+            .toggle {
+                display: block;
+                background-color: var(--text);
+                padding: 14px 20px;
+                color: var(--hovText);
+                font-size: 17px;
+                text-decoration: none;
+                border: 2px solid var(--text);
+            }
+
+            .toggle:hover {
+                background-color: var(--hovText);
+                color: var(--text);
+            }
+
+            [id^=drop]:checked+ul {
+                display: block;
+            }
+
+            nav ul li {
+                display: block;
+                width: 100%;
+            }
+
+            nav ul ul .toggle,
+            nav ul ul a {
+                padding: 0 40px;
+            }
+
+            nav ul ul ul a {
+                padding: 0 80px;
+            }
+
+            nav a:hover,
+            nav ul ul ul a {
+                background-color: var(--hovText);
+            }
+
+            nav ul li ul li .toggle,
+            nav ul ul a,
+            nav ul ul ul a {
+                padding: 14px 20px;
+                color: #FFF;
+                font-size: 17px;
+            }
+
+
+            nav ul li ul li .toggle,
+            nav ul ul a {
+                background-color: #212121;
+            }
+
+            nav ul li ul li .toggle,
+            nav ul ul a>input {
+                background-color: #212121;
+                color: #fff;
+                font-size: 17px;
+            }
+
+            nav ul ul {
+                float: none;
+                position: static;
+                color: #ffffff;
+            }
+
+            nav ul ul li:hover>ul,
+            nav ul li:hover>ul {
+                display: none;
+            }
+
+            nav ul ul li {
+                display: block;
+                width: 100%;
+            }
+
+            nav ul ul ul li {
+                position: static;
+            }
+
+        }
+
+        @media all and (max-width : 330px) {
+
+            nav ul li {
+                display: block;
+                width: 94%;
+            }
+
+        }
+
+        section .url-diagnostic-area {
+            position: relative;
+            z-index: -1;
+            margin-top: 5vh;
+        }
+
+        .url-table {
+            position: relative;
+            max-height: 40vh;
+            min-width: 100%;
+            scroll-behavior: smooth;
+        }
+
+        .url-table table {
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        :where(table, thead, tbody, tr, th, td) {
+            border: 1px ridge #3a3636;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <section>
+        <div class="rt-container">
+            <div class="col-rt-12">
+                <div class="Scriptcontent">
+
+                    <nav>
+                        <div id="logo">Url Shortener</div>
+
+                        <label for="drop" class="toggle">Menu</label>
+                        <input type="checkbox" id="drop" />
+                        <ul class="menu">
+                            <li>
+                                <a>
+                                    <% if (locals.user) { %>
+
+                                        <%= user.userName %>
+                                            <% } %>
+                                </a>
+                            </li>
+                            <li>
+                                <!-- First Tier Drop Down -->
+                                <label for="drop-1" class="toggle">Settings +</label>
+                                <a href="#">Settings</a>
+                                <input type="checkbox" id="drop-1" />
+                                <ul>
+                                    <li><a href="/services/user/update">Manage Account</a></li>
+                                    <li>
+                                        <a href="/services/url/analytics" style="cursor: pointer;">Url Analytics</a>
+                                    </li>
+                                    <li><a href="/services/url/delete">Url Manage</a></li>
+                                    <li><a href="/services/user/logout">Logout</a></li>
+                                </ul>
+                            </li>
+                            <li>
+
+                                <!-- First Tier Drop Down -->
+                                <label for="drop-2" class="toggle">Desk +</label>
+                                <a href="#">Desk</a>
+                                <input type="checkbox" id="drop-2" />
+                                <ul>
+                                    <li><a href="#">About</a></li>
+                                    <li><a href="#">Contact US</a></li>
+                                    <li><a href="#">Help</a></li>
+                                    <li><a href="#">FeedBack</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <main>
+        <section>
+            <div class="url-diagnostic-area">
+
+                <% if (locals.urlData) { %>
+                    <div class="url-table">
+                        <table class="table">
+                            <caption style="font-size: 30px;margin-bottom: 10px;">Url Dashboard</caption>
+                            <thead>
+                                <th>No.</th>
+                                <th>shortID</th>
+                                <th>redirectURL</th>
+                                <th>clicks</th>
+                            </thead>
+                            <tbody>
+
+                                <% urlData.forEach((url,index)=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= index + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= url.shortId %>
+                                        </td>
+                                        <td>
+                                            <%= url.redirectURL %>
+                                        </td>
+                                        <td>
+                                            <%= url.visitHistory %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <% } %>
+
+            </div>
+        </section>
+    </main>
+    <script>
+        (async function urlAnalyticData() {
+            const returnData = await fetch(`${window.location.origin}/api/url/analytics`);
+            // returnData.then((data) => data.json()).then(([url]) => console.log(url));
+            console.log(returnData);
+        })();
+    </script>
+</body>
+
+</html>

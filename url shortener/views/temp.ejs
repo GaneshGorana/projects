@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortner Service</title>
+    <style>
+        @font-face {
+            font-family: orkney;
+            src: url(orkney.otf);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 25px;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            min-width: max-content;
+        }
+
+        body {
+            min-height: 100vh;
+            min-width: 100%;
+            font-family: orkney;
+            background-color: #262626;
+            background-repeat: no-repeat;
+        }
+
+        header {
+            max-height: 10vh;
+            min-width: max-content;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #120f1c;
+        }
+
+        header .logo {
+            font-size: 45px;
+        }
+
+        header nav {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #userName {
+            position: fixed;
+            top: 22.5px;
+            padding: 4px;
+            outline: none;
+            border: 2px groove rgb(159, 142, 66);
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        #userName span {
+            color: rgb(159, 142, 66);
+        }
+
+        #dropdown-menu {
+            position: relative;
+            top: 60px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: height .4s ease;
+            visibility: hidden;
+        }
+
+        #dropdown-check:checked+#dropdown-menu {
+            visibility: visible;
+        }
+
+        #dropdown-menu>button {
+            outline: none;
+            border: 2px groove cornsilk;
+            color: cornsilk;
+            background-color: transparent;
+            cursor: pointer;
+
+        }
+
+        main {
+            position: relative;
+            top: 20vh;
+        }
+
+        section .url-generate-area {
+            min-width: max-content;
+            margin-top: 5vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        section .url-generate-area h1 {
+            margin-top: 10px;
+            font-size: 35px;
+        }
+
+        section .url-generate-area .url-generate-info {
+            font-size: 30px;
+        }
+
+        section .url-diagnostic-area {
+            margin-top: 5vh;
+        }
+
+        button {
+            padding: 4px;
+            cursor: pointer;
+            color: aqua;
+            border: 2px groove aqua;
+            outline: none;
+            background-color: transparent;
+        }
+
+        input {
+            background-color: #fff;
+            color: #000;
+        }
+
+        input.url-generate-input {
+            padding: 4px;
+            color: #fff;
+            background-color: transparent;
+            outline: 2px groove #ffe;
+            border: none;
+        }
+
+        .url-table {
+            position: relative;
+            max-height: 40vh;
+            min-width: 100%;
+            overflow: scroll;
+            scroll-behavior: smooth;
+        }
+
+        .url-table table {
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        :where(table, thead, tbody, tr, th, td) {
+            border: 1px ridge #3a3636;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <span>
+            <h1 class="logo">URL Shortner Service</h1>
+        </span>
+        <nav>
+            <label title="user" id="userName" for="dropdown-check">
+                <span>
+                    <% if (locals.user) { %>
+                        <%= user.userName %>
+                            <% } %>
+                </span>
+            </label>
+            <input type="checkbox" id="dropdown-check" style="display: none;">
+            <div id="dropdown-menu">
+                <button>Manage Account</button>
+                <button>URL Dashboard</button>
+                <button>Logout</button>
+        </nav>
+    </header>
+    </div>
+    <main>
+        <section>
+
+            <% if (locals.user) { %>
+                <% } %>
+                    <div class="url-generate-area">
+                        <h1>Enter URL to Short<h1>
+                                <form action="/api/shortId" method="post">
+                                    <input type="text" name="redirectURL" class="url-generate-input" id="redirectURL"
+                                        placeholder="https://example.com" required>
+                                    <button type="submit" title="generate" class="url-generate-btn">Generate!</button>
+                                </form>
+                                <% if (locals.urlShowData) { %>
+                                    <br>
+                                    <p class="url-generate-info">Your Short URL id is
+                                        <b>
+                                            "<%= urlShowData.shortId %>"
+                                        </b>
+                                        and shorted URL is
+                                        <b>
+                                            "<%= urlShowData.redirectURL %>"
+                                        </b>
+                                    </p>
+                                    <% } %>
+
+                    </div>
+                    <div class="url-diagnostic-area">
+                        <form action="/main/service/diagnostic" method="get">
+                            <button type="submit" title="show table">Show Diagnostic Table</button>
+                        </form>
+
+                        <% if (locals.urlData) { %>
+                            <div class="url-table">
+                                <table class="table">
+                                    <thead>
+                                        <th>No.</th>
+                                        <th>shortID</th>
+                                        <th>redirectURL</th>
+                                        <th>clicks</th>
+                                    </thead>
+                                    <tbody>
+
+                                        <% urlData.forEach((user,index)=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= index + 1 %>
+                                                </td>
+                                                <td>
+                                                    <%= user.shortId %>
+                                                </td>
+                                                <td>
+                                                    <%= user.redirectURL %>
+                                                </td>
+                                                <td>
+                                                    <%= user.visitHistory.length %>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% } %>
+
+                    </div>
+        </section>
+    </main>
+
+    <script>
+        // let isVisible = false;
+        // function toggleDropdown() {
+        //     var dropdown = document.getElementById("dropdown-menu");
+        //     isVisible = !isVisible;
+        //     dropdown.style.visibility = isVisible ? 'visible' : 'hidden';
+        // }
+
+    </script>
+</body>
+
+</html>

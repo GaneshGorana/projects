@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registration form</title>
+  <style>
+    @font-face {
+      font-family: orkney;
+      src: url(orkney.otf);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: orkney;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #262626;
+    }
+
+    .wrapper {
+      position: relative;
+      max-width: 430px;
+      width: 100%;
+      background: #262626;
+      box-shadow: 10px 10px 3px rgba(0, 0, 0, 0.4), inset 5px 5px 20px rgba(0, 0, 0, 0.5);
+      padding: 34px;
+      border-radius: 6px;
+    }
+
+    .wrapper h1 {
+      position: relative;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .wrapper form {
+      margin-top: 30px;
+    }
+
+    .wrapper form .input-box {
+      height: 52px;
+      margin: 18px 0;
+      overflow: hidden;
+    }
+
+    form .input-box input {
+      height: 100%;
+      width: 100%;
+      outline: none;
+      padding: 0 15px;
+      font-size: 17px;
+      font-weight: 400;
+      background: #262626;
+      color: #fff;
+      border: 1.5px solid #c7bebe;
+      outline: none;
+      border-radius: 6px;
+      border-style: ridge;
+      transition: all 0.3.8s ease-in-out;
+    }
+
+
+    .input-box input:focus,
+    .input-box input:valid {
+      border-color: aqua;
+    }
+
+    form .policy {
+      display: flex;
+      align-items: center;
+    }
+
+    form h3 {
+      color: #707070;
+      font-size: 14px;
+      font-weight: 500;
+      margin-left: 10px;
+    }
+
+    .input-box.button input {
+      position: relative;
+      letter-spacing: 1px;
+      font-size: 20px;
+      outline: none;
+      border: none;
+      background: transparent;
+      color: #262626;
+      cursor: pointer;
+      transition: color 0.3s ease-in-out;
+      position: relative;
+      z-index: 4;
+    }
+
+
+    form .input-box button {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      width: 100%;
+      background-color: transparent;
+      border: 5px solid aqua;
+    }
+
+    form .input-box button:hover>input {
+      color: aqua;
+    }
+
+    form .input-box button::before {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      height: 52px;
+      width: 181px;
+      background-color: aqua;
+      transition: width 0.4s ease-in-out;
+      transform-origin: bottom;
+    }
+
+    form .input-box button::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      z-index: 2;
+      height: 52px;
+      width: 181px;
+      background-color: aqua;
+      transition: width 0.4s ease-in-out;
+    }
+
+    .input-box.button button:hover::before,
+    .input-box.button button:hover::after {
+      color: aqua;
+      width: 0;
+      background: #262626;
+    }
+
+    form .text h3 {
+      font-size: 18px;
+      color: #fff;
+      width: 100%;
+      text-align: center;
+    }
+
+    form .text h3 a {
+      color: aqua;
+      text-decoration: none;
+    }
+
+    form .text h3 a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <h1>Registration</h1>
+    <form action="/user/register" method="post" name="createUserForm" onsubmit="return checkPass()">
+      <div class="input-box">
+        <input type="text" id="fullName" name="fullName" placeholder="Enter Full Name" required />
+      </div>
+      <div class="input-box">
+        <input type="text" id="userName" name="userName" placeholder="Enter Unique Username" required />
+      </div>
+      <div class="input-box">
+        <input type="email" id="email" name="email" placeholder="Enter Email" required />
+      </div>
+
+      <div class="input-box">
+        <input type="password" id="pass" name="password" placeholder="Enter Password" required />
+      </div>
+      <div class="input-box">
+        <input type="password" id="cpass" placeholder="Enter Confirm Password" required />
+      </div>
+      <div class="policy">
+        <input type="checkbox" required id="privacy" />
+        <h3><label for="privacy" style="font-size: 17px;">I accept all terms & condition</label></h3>
+      </div>
+      <div class="input-box button">
+        <button>
+          <input type="Submit" value="Register Now" class="submit" />
+        </button>
+      </div>
+      <div class="text">
+        <h3>
+          Already have an account?
+          <a href="./login.html">Login now</a>
+        </h3>
+      </div>
+    </form>
+  </div>
+  <script>
+    function checkPass() {
+      let pass = document.querySelector("#pass").value;
+      let cpass = document.querySelector("#cpass").value;
+      if (pass === cpass) return true;
+      else {
+        alert("Your password and confirmation password do not match.");
+        return false;
+      }
+    }
+  </script>
+</body>
+
+</html>
